@@ -1,5 +1,6 @@
 import datetime
 from copy import copy
+from typing import Dict
 
 import dateutil.parser
 import tzlocal
@@ -22,12 +23,15 @@ def aule() -> list:
 
 def aule_libere(
     time: datetime.datetime = datetime.datetime.now(tzlocal.get_localzone()),
-):
+) -> Dict:
 
-    a = aule()
+    aule_lst = aule()
+    aule_lst.sort(key=lambda aula: aula["descrizione"])
+
     impegni = calendario.impegni_calendario(date=time.date())
 
-    aule_libere = copy(a)
+    free_aule_map = {aula["id"]: aula for aula in aule_lst}
+    impegni_map = {aula["id"]: None for aula in aule_lst}
 
     for impegno in impegni:
 
@@ -35,20 +39,27 @@ def aule_libere(
         end_time = dateutil.parser.isoparse(impegno["dataFine"])
 
         # If the impegno is in the future or in the past, skip it
-        if time < start_time or time > end_time:
+        if time > end_time:
             continue
+        elif time < start_time:
+            for risorsa in impegno["risorse"]:
+
+                if "aula" in risorsa:
+                    matching_aula = free_aule_map.get(risorsa["aula"]["id"], None)
+
+                    if matching_aula:
+                        impegni_map[matching_aula["descrizione"]] = impegno
 
         for risorsa in impegno["risorse"]:
             if "aula" in risorsa:
 
-                aula = [
-                    aula for aula in aule_libere if aula["id"] == risorsa["aula"]["id"]
-                ]
-                if aula:
+                matching_aula = free_aule_map.get(risorsa["aula"]["id"], None)
+
+                if matching_aula:
                     try:
-                        aule_libere.remove(aula[0])
-                    except ValueError:
+                        free_aule_map.pop(matching_aula["descrizione"])
+                        impegni_map.pop(matching_aula["descrizione"])
+                    except KeyError:
                         pass
 
-    aule_libere.sort(key=lambda x: x["descrizione"])
-    return aule_libere
+    return free_aule_map, impegni_map
