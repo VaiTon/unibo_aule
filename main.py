@@ -5,10 +5,17 @@ import sys
 import tzlocal
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler, Updater
+from dotenv import load_dotenv
 
 import aula
 
-BOT_TOKEN = os.environ["BOT_TOKEN"]
+load_dotenv()   # Load .env file
+
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+
+if not BOT_TOKEN:
+    print("BOT_TOKEN not set")
+    exit(-1)
 
 
 def aule_libere(update: Update, context: CallbackContext):

@@ -8,6 +8,9 @@ authors = ["VaiTon <eyadlorenzo@gmail.com>"]
 python = "^3.10"
 python-telegram-bot = "^13.12"
 requests = "^2.27.1"
+python-dateutil = "^2.8.2"
+tzlocal = "^4.2"
+python-dotenv = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 

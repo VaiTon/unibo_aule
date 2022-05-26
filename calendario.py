@@ -1,10 +1,11 @@
 import datetime
+from typing import List
 
 from api import client
 
 
 def impegni_calendario(
-    aule: list[str] = [], date: datetime.date = datetime.date.today()
+    aule: List[str] = [], date: datetime.date = datetime.date.today()
 ):
     return client.post(
         "https://apache.prod.up.cineca.it/api/Impegni/getImpegniCalendarioPubblico",
