@@ -34,7 +34,7 @@ def aule_libere(update: Update, context: CallbackContext):
                 f" -> Prossima lezione alle {dateutil.parser.parse(impegni_map[id]['startTime']).strftime('%H:%M')}\n"
             )
 
-    orario = time.time().strftime("%H:%M")
+    orario = time.strftime("%H:%M")
 
     text = f"<b>Trovate {len(aule_libere)} aule libere alle ore {orario}:</b>\n\n{''.join(aule_txt)}"
 
