@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 import aula
 
-load_dotenv()   # Load .env file
+load_dotenv()  # Load .env file
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
@@ -20,11 +20,13 @@ if not BOT_TOKEN:
 
 def aule_libere(update: Update, context: CallbackContext):
     time = datetime.now(tzlocal.get_localzone())
+
     aule_libere = aula.aule_libere(time)
 
     aule = [f"- {aula['descrizione']}\n" for aula in aule_libere]
-
-    text = f"<b>Trovate {len(aule_libere)} aule libere:</b>\n\n{''.join(aule)}"
+    orario = time.time().strftime("%H:%M")
+    
+    text = f"<b>Trovate {len(aule_libere)} aule libere alle ore {orario}:</b>\n\n{''.join(aule)}"
 
     context.bot.send_message(
         chat_id=update.effective_chat.id, text=text, parse_mode=ParseMode.HTML
