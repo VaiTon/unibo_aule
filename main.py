@@ -1,12 +1,11 @@
-from datetime import datetime
 import os
-import sys
+from datetime import datetime
 
-import tzlocal
 import dateutil.parser
+import tzlocal
+from dotenv import load_dotenv
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler, Updater
-from dotenv import load_dotenv
 
 import aule
 

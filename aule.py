@@ -1,17 +1,16 @@
 import datetime
-from copy import copy
 from typing import Dict
 
 import dateutil.parser
 import tzlocal
 
 import calendario
-from api import client
+from api import AULE_ENDPOINT, client
 
 
 def aule() -> list:
     return client.post(
-        "https://apache.prod.up.cineca.it/api/Aule/getAulePerCalendarioPubblico",
+        AULE_ENDPOINT,
         json={
             "linkCalendarioId": "5e9996a228a649001237296d",
             "clienteId": "5ad08435b6ca5357dbac609e",

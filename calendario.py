@@ -1,14 +1,14 @@
 import datetime
 from typing import List
 
-from api import client
+from api import CALENDARIO_ENDPOINT, client
 
 
 def impegni_calendario(
     aule: List[str] = [], date: datetime.date = datetime.date.today()
 ):
     return client.post(
-        "https://apache.prod.up.cineca.it/api/Impegni/getImpegniCalendarioPubblico",
+        CALENDARIO_ENDPOINT,
         json={
             "mostraImpegniAnnullati": True,
             "mostraIndisponibilitaTotali": True,
